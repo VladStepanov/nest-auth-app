@@ -1,5 +1,3 @@
-console.log(process.env.DB_NAME)
-
 module.exports = {
   type: 'postgres',
   host: 'localhost',
