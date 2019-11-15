@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, BeforeInsert, BeforeUpdate, AfterLoad } from "typeorm";
+import * as bcrypt from 'bcrypt'
 
 @Entity()
 export class UserEntity {
@@ -22,4 +23,20 @@ export class UserEntity {
 
   @Column()
   state: string
+
+  private tempPassword: string
+
+  @AfterLoad()
+  loadTempPassword(): void {
+    this.tempPassword = this.password
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async generatePassword(): Promise<void> {
+    if (this.tempPassword !== this.password) {
+      const hashed = await bcrypt.hash(this.password, 10);
+      this.password = hashed;
+    }
+  }
 }
