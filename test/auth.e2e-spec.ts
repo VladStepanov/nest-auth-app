@@ -9,9 +9,6 @@ describe('AUTH', () => {
   beforeEach(async () => {
     // We do it for drop table
     await createConnection(require('../ormconfig.js'));
-    // const connection: Connection = await createConnection(require('../ormconfig.js'));
-    // const userRepository = connection.getRepository(UserEntity);
-    // await userRepository.query(`DELETE FROM user_entity;`);
   });
 
   afterEach(async () => {
@@ -42,6 +39,15 @@ describe('AUTH', () => {
       .send(user)
       .expect(({ status }) => {
         expect(status).toBe(400);
+      });
+  });
+  it ('should login', async () => {
+    return request(appHost)
+      .post('/auth/register')
+      .send(user)
+      .expect(({ body: { accessToken }, status }) => {
+        expect(accessToken).toBeDefined();
+        expect(status).toBe(201);
       });
   });
 });

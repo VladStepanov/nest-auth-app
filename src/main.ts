@@ -10,5 +10,6 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(`App is running on the port ${port}`, 'Bootstrap');
+  if (process.env.NODE_ENV === 'test') Logger.log('Test in progress. Testing db connected', 'Bootstrap');
 }
 bootstrap();
