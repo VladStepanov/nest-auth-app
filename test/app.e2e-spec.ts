@@ -1,9 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import 'dotenv/config';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { INestApplication } from '@nestjs/common';
+import { AppModule } from '../src/app.module';
+import { Test, TestingModule } from '@nestjs/testing';
 
-describe('AppController (e2e)', () => {
-  let app;
+describe('ROOT', () => {
+  let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -14,7 +16,7 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('should ping', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)

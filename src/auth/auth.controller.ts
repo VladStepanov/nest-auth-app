@@ -10,16 +10,16 @@ export class AuthController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   test() {
-    return 'only for authorized users'
+    return 'only for authorized users';
   }
 
   @Post('login')
   async login(@Body() data: loginDTO): Promise<createdUser> {
-    return await this.authService.login(data)
+    return await this.authService.login(data);
   }
 
   @Post('register')
   async register(@Body() data: registerDTO): Promise<createdUser> {
-    return await this.authService.create(data)
+    return await this.authService.create(data);
   }
 }

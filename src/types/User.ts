@@ -4,5 +4,5 @@ export abstract class User {
   created: Date;
   adress: string;
   city: string;
-  state: string
+  state: string;
 }
