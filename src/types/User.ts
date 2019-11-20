@@ -1,8 +1,8 @@
 export abstract class User {
-  username: string;
-  password: string;
-  created: Date;
-  adress: string;
-  city: string;
-  state: string;
+  readonly username: string;
+  readonly password: string;
+  readonly created: Date;
+  readonly adress: string;
+  readonly city: string;
+  readonly state: string;
 }
