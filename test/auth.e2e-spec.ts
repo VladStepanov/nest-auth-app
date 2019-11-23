@@ -16,11 +16,11 @@ describe('AUTH', () => {
   });
 
   const userReg: registerDTO = {
-    username: 'forTest1',
-    password: 'pass1',
-    adress: 'adress',
-    city: 'city',
-    state: 'state',
+    username: 'forTests',
+    password: 'password',
+    adress: 'zalupa',
+    city: 'zalupino',
+    state: 'zalupinsk',
   };
   const userLogin: loginDTO = {
     username: userReg.username,
@@ -54,5 +54,21 @@ describe('AUTH', () => {
           expect(status).toBe(201);
           expect(accessToken).toBeDefined();
       });
+  });
+  it ('should give an access to guarded route', async () => {
+    const { body: { accessToken } } = await request(appHost).post('/auth/register').send(userReg);
+    return request(appHost)
+      .get('/auth')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(({ status }) => {
+        expect(status).toBe(200);
+      });
+  });
+  it ('should reject if user unauthorized', async () => {
+    return request(appHost)
+      .get('/auth')
+      .expect(({ status }) => {
+        expect(status).toBe(401);
+    });
   });
 });
