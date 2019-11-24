@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { UserEntity } from './user.entity';
+import { User } from '../types/User';
 
 @Entity()
 export class ProductEntity {
@@ -13,4 +15,8 @@ export class ProductEntity {
 
   @Column('int')
   price: number;
+
+  @ManyToOne(type => UserEntity, user => user.products)
+  @JoinColumn({ name: 'owner_id' })
+  owner: UserEntity;
 }

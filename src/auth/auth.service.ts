@@ -30,7 +30,7 @@ export class AuthService {
 
     if (isPassCorrect) {
       const { username, id } = user;
-      const payload: jwtPayloadModel = { username, id };
+      const payload: jwtPayloadModel = { username, sub: id };
       return {
         accessToken: this.jwtService.sign(payload),
       };
@@ -45,7 +45,7 @@ export class AuthService {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
     const { username, id }: UserEntity = await this.userService.createUser(data);
-    const payload: jwtPayloadModel = { username, id };
+    const payload: jwtPayloadModel = { username, sub: id };
     return {
       accessToken: this.jwtService.sign(payload),
     };

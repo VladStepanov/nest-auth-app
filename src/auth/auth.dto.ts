@@ -32,5 +32,5 @@ export abstract class createdUser {
 
 export abstract class jwtPayloadModel {
   username: string;
-  id: string;
+  sub: string;
 }

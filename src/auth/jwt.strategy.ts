@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: process.env.JWT_KEY,
     });
   }
-  validate({ username, id }: jwtPayloadModel): jwtPayloadModel {
-    return { username, id };
+  validate({ username, sub }: jwtPayloadModel): jwtPayloadModel {
+    return { username, sub };
   }
 }
