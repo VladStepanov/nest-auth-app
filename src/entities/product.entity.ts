@@ -4,7 +4,7 @@ import { User } from '../types/User';
 
 @Entity()
 export class ProductEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column('text')
