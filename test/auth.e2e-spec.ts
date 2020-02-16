@@ -1,9 +1,8 @@
 import 'dotenv/config';
-import { Connection, createConnection, getConnection } from 'typeorm';
+import { createConnection, getConnection } from 'typeorm';
 import { loginDTO, registerDTO } from '../src/auth/auth.dto';
 import * as request from 'supertest';
 import { appHost } from './constants';
-import { UserEntity } from '../src/entities/user.entity';
 
 describe('AUTH', () => {
   beforeEach(async () => {
@@ -18,16 +17,16 @@ describe('AUTH', () => {
   const userReg: registerDTO = {
     username: 'forTests',
     password: 'password',
-    adress: 'zalupa',
-    city: 'zalupino',
-    state: 'zalupinsk',
+    adress: 'Some adress',
+    city: 'Some city',
+    state: 'Some state',
   };
   const userLogin: loginDTO = {
     username: userReg.username,
     password: userReg.password,
   };
 
-  it ('should register user', () => {
+  it('should register user', () => {
     return request(appHost)
       .post('/auth/register')
       .send(userReg)
@@ -45,17 +44,17 @@ describe('AUTH', () => {
         expect(status).toBe(400);
       });
   });
-  it ('should login', async () => {
+  it('should login', async () => {
     await request(appHost).post('/auth/register').send(userReg);
     return request(appHost)
       .post('/auth/login')
       .send(userLogin)
-      .expect(({ body: { accessToken }, status }) => {
-          expect(status).toBe(201);
-          expect(accessToken).toBeDefined();
+      .expect(({ status, body: { accessToken } }) => {
+        expect(status).toBe(201);
+        expect(accessToken).toBeDefined();
       });
   });
-  it ('should give an access to guarded route', async () => {
+  it('should give an access to guarded route', async () => {
     const { body: { accessToken } } = await request(appHost).post('/auth/register').send(userReg);
     return request(appHost)
       .get('/auth')
@@ -64,11 +63,11 @@ describe('AUTH', () => {
         expect(status).toBe(200);
       });
   });
-  it ('should reject if user unauthorized', async () => {
+  it('should reject if user unauthorized', async () => {
     return request(appHost)
       .get('/auth')
       .expect(({ status }) => {
         expect(status).toBe(401);
-    });
+      });
   });
 });
